@@ -7,20 +7,20 @@ Install it by downloading one of the [binaries](https://github.com/mhausenblas/a
 
 ## Use it
 
-The general usage pattern is:
+The general usage pattern is as follows: `awsometag` takes exactly three arguments: 1. the ARN of the resource to tag, 2. the region, and 3. a list of comma-separated tags in the format `key=value`:
 
 ```sh
-$ awsometag RESOURCEARN TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,...
+$ awsometag RESOURCE_ARN REGION "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
 ```
 
 For example, to tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you would use the following command:
 
 ```sh
-$ awsometag arn:aws:s3:::abucket thats=cool
+$ awsometag arn:aws:s3:::abucket us-west-2 thats=cool
 ```
 
 Or maybe you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with `nice=person` and `they=oweme`? Then you'd want to use the following:
 
 ```sh
-$ awsometag arn:aws:iam::123456789012:user/abc "nice=person, they=oweme"
+$ awsometag arn:aws:iam::123456789012:user/abc eu-west-1 "nice=person, they=oweme"
 ```

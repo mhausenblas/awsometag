@@ -10,20 +10,22 @@ import (
 )
 
 func main() {
-	if len(os.Args[1:]) < 2 {
-		log.Fatalln("Need resource ARN and tags")
+	if len(os.Args[1:]) < 3 {
+		log.Fatalln("Need: resource ARN, region, and tags, sorry :(")
 	}
 	// the ARN of the resource to tag is supposed to be the first argument:
 	res := os.Args[1]
+	// the region to apply the tagging in:
+	region := os.Args[2]
 	// a comma-separated list of tags os supposed to be the second argument:
-	tags := os.Args[2]
+	tags := os.Args[3]
 	// first try to guess the resource/service type:
 	rtype, err := guesstype(res)
 	if err != nil {
 		log.Fatalf("Can't guess the type of resource based on ARN %s", res)
 	}
 	// and finally try to tag the resource/service with the tags provided:
-	rtag(res, rtype, tags)
+	rtag(region, res, rtype, tags)
 }
 
 // guesstype extracts the resource/service type of the ARN, see also:
@@ -38,14 +40,14 @@ func guesstype(res string) (string, error) {
 
 // rtag tags a given resource with a certain type with a comma-separated
 // list of tags or fails if it doesn't support the resource type
-func rtag(res, rtype, tags string) (err error) {
+func rtag(region, res, rtype, tags string) (err error) {
 	taglist := expand(tags)
 	for _, tag := range taglist {
 		switch rtype {
 		case "iam":
-			err = tagiamuser(res, tag)
+			err = tagiamuser(region, res, tag)
 		case "s3":
-			err = tags3bucket(res, tag)
+			err = tags3bucket(region, res, tag)
 		default:
 			return fmt.Errorf("Don't know how to tag resources of type %s", rtype)
 		}
