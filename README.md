@@ -18,10 +18,22 @@ For example, to tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you woul
 ```sh
 $ awsometag arn:aws:s3:::abucket us-west-2 thats=cool
 2020/01/04 13:54:32 Tagging S3 bucket 'abucket' with thats:cool
+
+$ aws s3api get-bucket-tagging --bucket abucket
+{
+    "TagSet": [
+        {
+            "Key": "thats",
+            "Value": "cool"
+        }
+    ]
+}
 ```
 
 Or maybe you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with `nice=person` and `they=oweme`? Then you'd want to use the following:
 
 ```sh
 $ awsometag arn:aws:iam::123456789012:user/abc eu-west-1 "nice=person, they=oweme"
+
+$ aws iam list-user-tags --user-name abc
 ```
