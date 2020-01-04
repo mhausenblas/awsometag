@@ -7,5 +7,11 @@ Install it by downloading this binary or, if you have Go installed, building it 
 Usage is simple:
 
 ```sh
-$ awsometag $RESOURCEARN TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,...
+$ awsometag RESOURCEARN TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,...
+```
+
+For example, to tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you would use the following command:
+
+```sh
+$ awsometag arn:aws:s3:::abucket thats=cool
 ```
