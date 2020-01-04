@@ -2,9 +2,13 @@
 
 After reading and reflecting on [Allocate AWS Costs with Resource Tags](https://medium.com/@davidevanpaulis/allocate-aws-costs-with-resource-tags-277de240487f) I asked myself: is there a CLI tool out there, ideally with a great UX, that allows me to tag *any* AWS resource in a uniform manner? After some searching around I concluded that the answer is likely "No" and so I set out to fill this gap with `awsometag`.
 
-Install it by downloading this binary or, if you have Go installed, building it from the head.
+## Install it
+Install it by downloading one of the binary or, if you have Go 1.12+ installed, you can build it from source.
 
-Usage is simple:
+
+## Use it
+
+The general usage pattern is:
 
 ```sh
 $ awsometag RESOURCEARN TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,...
