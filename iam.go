@@ -3,7 +3,6 @@ package main
 
 import (
 	"log"
-	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
@@ -12,23 +11,19 @@ import (
 )
 
 // tagiamrole tags an IAM role
-func tagiamrole(region, arnres, tag string) error {
-	res, k, v, err := preflight(arnres, tag)
-	if err != nil {
-		return err
-	}
-	log.Printf("Tagging IAM role '%s' with %s:%s", res.Resource, k, v)
+func tagiamrole(region, rolename, key, value string) error {
+	log.Printf("Tagging IAM role '%s' with %s:%s", rolename, key, value)
 	svc := iam.New(session.Must(session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String(region),
 		},
 	})))
-	_, err = svc.TagRole(&iam.TagRoleInput{
-		RoleName: aws.String(res.Resource),
+	_, err := svc.TagRole(&iam.TagRoleInput{
+		RoleName: aws.String(rolename),
 		Tags: []*iam.Tag{
 			{
-				Key:   aws.String(k),
-				Value: aws.String(v),
+				Key:   aws.String(key),
+				Value: aws.String(value),
 			},
 		},
 	})
@@ -56,20 +51,15 @@ func tagiamrole(region, arnres, tag string) error {
 }
 
 // tagiamuser tags an IAM user
-func tagiamuser(region, arnres, tag string) error {
-	res, k, v, err := preflight(arnres, tag)
-	if err != nil {
-		return err
-	}
-	username := strings.Split(res.Resource, "/")[1]
-	log.Printf("Tagging IAM user '%s' with %s:%s", username, k, v)
+func tagiamuser(region, username, key, value string) error {
+	log.Printf("Tagging IAM user '%s' with %s:%s", username, key, value)
 	svc := iam.New(session.New())
-	_, err = svc.TagUser(&iam.TagUserInput{
+	_, err := svc.TagUser(&iam.TagUserInput{
 		UserName: aws.String(username),
 		Tags: []*iam.Tag{
 			{
-				Key:   aws.String(k),
-				Value: aws.String(v),
+				Key:   aws.String(key),
+				Value: aws.String(value),
 			},
 		},
 	})
