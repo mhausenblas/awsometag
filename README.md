@@ -34,17 +34,16 @@ Hence, the general usage pattern for `awsometag` is:
 $ awsometag RESOURCE_ARN "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
 ```
 
-Currently, `awsometag` supports tagging resources in:
+Currently, `awsometag` supports tagging :tag: resources in:
 
 1. Fundamental services
-   - AWS Identity and Access Management ([IAM](#iam))
-   - Amazon Simple Storage Service ([S3](#s3))
-   - Lambda
+   - <a href="#iam" title="AWS Identity and Access Management">IAM</a>: users, roles
+   - <a href="#s3" title="Amazon Simple Storage Service">S3</a>:  buckets, objects
+   - <a href="#lambda" title="AWS Lambda">Lambda</a>: functions
 1. Container services
-   - Amazon Elastic Container Registry ([ECR](#ecr))
-   - Amazon Elastic Container Service ([ECS](#ecs))
-   - Amazon Elastic Kubernetes Service ([EKS](#eks))
-
+   - <a href="#ecr" title="Amazon Elastic Container Registry">ECR</a>: repositories
+   - <a href="#ecs" title="Amazon Elastic Container Service">ECS</a>: capacity providers, clusters, tasks, task definitions, services, and container instances
+   - <a href="#eks" title="Amazon Elastic Kubernetes Service">EKS</a>: clusters, managed node groups
 
 ### IAM
 
