@@ -38,6 +38,7 @@ Currently, the following services are supported by `awsometag`:
 
 - [IAM](#iam)
 - [S3](#s3)
+- [EKS](#eks)
 
 ### IAM
 
@@ -45,9 +46,12 @@ If you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with
 `nice=person` and `they=oweme` then you'd want to use the following:
 
 ```sh
+# tag:
 $ awsometag arn:aws:iam::123456789012:user/abc - "nice=person, they=oweme"
 
-$ aws iam list-user-tags --user-name abc
+# verify the tagging:
+$ aws iam list-user-tags \
+      --user-name abc
 {
     "Tags": [
         {
@@ -73,10 +77,13 @@ required, so I chose `-`.
 To tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you would use:
 
 ```sh
+# tag:
 $ awsometag arn:aws:s3:::abucket us-west-2 thats=cool
 2020/01/04 13:54:32 Tagging S3 bucket 'abucket' with thats:cool
 
-$ aws s3api get-bucket-tagging --bucket abucket
+# verify the tagging:
+$ aws s3api get-bucket-tagging \
+      --bucket abucket
 {
     "TagSet": [
         {
@@ -91,10 +98,14 @@ Same works for objects in a bucket: let's tag the object with the key
 `input.csv` residing in the bucket `abucket` with `this=aswell`:
 
 ```sh
+# tag:
 $ awsometag arn:aws:s3:::abucket/input.csv us-west-2 this=aswell
 2020/01/05 07:03:50 Tagging S3 object 'input.csv' in bucket 'abucket' with this:aswell
 
-$ aws s3api get-object-tagging --bucket abucket --key input.csv
+# verify the tagging:
+$ aws s3api get-object-tagging \
+     --bucket abucket \
+     --key input.csv
 {
     "TagSet": [
         {
@@ -104,3 +115,25 @@ $ aws s3api get-object-tagging --bucket abucket --key input.csv
     ]
 }
 ```
+
+### EKS
+
+To tag the EKS cluster `arn:aws:eks:us-west-2:123456789102:cluster/somecluster` 
+with `my=containers`, use the following:
+
+```sh
+# tag:
+$ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster us-west-1 my=containers
+2020/01/05 08:26:03 Tagging EKS cluster 'somecluster' in region 'us-west-1' with my:containers
+
+# verify the tagging:
+$ aws eks list-tags-for-resource \
+      --resource-arn arn:aws:eks:us-west-2:123456789102:cluster/somecluster
+{
+    "tags": {
+        "my": "containers"
+    }
+}
+```
+
+Note: the same works for tagging [managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html).
