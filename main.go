@@ -25,7 +25,10 @@ func main() {
 		log.Fatalf("Can't guess the type of resource based on the ARN %s", arns)
 	}
 	// and finally try to tag the resource/with the tags provided:
-	rtag(region, arns, rtype, tags)
+	err = rtag(region, arns, rtype, tags)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 // guesstype extracts the resource type of the ARN, see also:
@@ -74,7 +77,15 @@ func rtag(region, arns, rtype, tags string) (err error) {
 				bucketname := arnres.Resource
 				err = tags3bucket(region, bucketname, key, value)
 			default:
-				return fmt.Errorf("Don't know how to tag resources of type %s", rtype)
+				return fmt.Errorf("I only know how to tag S3 buckets and objects, and %s seems to be neither", arns)
+			}
+		case "eks":
+			switch {
+			case strings.HasPrefix(arnres.Resource, "cluster"), // arn:aws:eks:*:*:cluster
+				strings.HasPrefix(arnres.Resource, "nodegroup"): // arn:aws:eks:*:*:nodegroup
+				err = tageks(region, arns, key, value)
+			default:
+				return fmt.Errorf("I only know how to tag EKS clusters and managed node groups, and %s seems to be neither", arns)
 			}
 		default:
 			return fmt.Errorf("Don't know how to tag resources of type %s", rtype)
