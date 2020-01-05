@@ -54,10 +54,10 @@ func rtag(region, arns, rtype, tags string) (err error) {
 			switch iamtype {
 			case "user": // arn:aws:iam::123456789102:user/xxx
 				username := strings.Split(arnres.Resource, "/")[1]
-				err = tagiamuser(region, username, key, value)
+				err = tagiamuser(username, key, value)
 			case "role": // arn:aws:iam::123456789102:role/xxx
 				rolename := strings.Split(arnres.Resource, "/")[1]
-				err = tagiamrole(region, rolename, key, value)
+				err = tagiamrole(rolename, key, value)
 			default:
 				return fmt.Errorf("Don't know how to tag resources of type %s", rtype)
 			}

@@ -11,13 +11,9 @@ import (
 )
 
 // tagiamrole tags an IAM role
-func tagiamrole(region, rolename, key, value string) error {
+func tagiamrole(rolename, key, value string) error {
 	log.Printf("Tagging IAM role '%s' with %s:%s", rolename, key, value)
-	svc := iam.New(session.Must(session.NewSessionWithOptions(session.Options{
-		Config: aws.Config{
-			Region: aws.String(region),
-		},
-	})))
+	svc := iam.New(session.New())
 	_, err := svc.TagRole(&iam.TagRoleInput{
 		RoleName: aws.String(rolename),
 		Tags: []*iam.Tag{
@@ -51,7 +47,7 @@ func tagiamrole(region, rolename, key, value string) error {
 }
 
 // tagiamuser tags an IAM user
-func tagiamuser(region, username, key, value string) error {
+func tagiamuser(username, key, value string) error {
 	log.Printf("Tagging IAM user '%s' with %s:%s", username, key, value)
 	svc := iam.New(session.New())
 	_, err := svc.TagUser(&iam.TagUserInput{
