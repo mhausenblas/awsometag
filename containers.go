@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ecr"
 	"github.com/aws/aws-sdk-go/service/eks"
 )
 
@@ -27,6 +28,26 @@ func tageks(region, arns, key, value string) error {
 	_, err := svc.TagResource(&eks.TagResourceInput{
 		ResourceArn: aws.String(arns),
 		Tags:        map[string]*string{key: aws.String(value)},
+	})
+	return err
+}
+
+// tagecr tags an ECR repository
+func tagecr(region, arns, key, value string) error {
+	// arn:aws:ecr:us-west-2:123456789102:repository/somerepo
+	reponame := strings.Split(arns, "/")[1]
+	log.Printf("Tagging ECR repository '%s' in region '%s' with %s:%s",
+		reponame, region, key, value)
+
+	svc := ecr.New(session.Must(session.NewSession()), aws.NewConfig().WithRegion(region))
+	_, err := svc.TagResource(&ecr.TagResourceInput{
+		ResourceArn: aws.String(arns),
+		Tags: []*ecr.Tag{
+			{
+				Key:   aws.String(key),
+				Value: aws.String(value),
+			},
+		},
 	})
 	return err
 }

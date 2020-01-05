@@ -31,16 +31,6 @@ func main() {
 	}
 }
 
-// guesstype extracts the resource type of the ARN, see also:
-// https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
-func guesstype(arns string) (string, error) {
-	arnres, err := arn.Parse(arns)
-	if err != nil {
-		return "", err
-	}
-	return arnres.Service, nil
-}
-
 // rtag tags a resource with ARN arns and a certain type rtype
 // with a comma-separated list of tags or fails if it
 // doesn't support the resource type
@@ -87,6 +77,13 @@ func rtag(region, arns, rtype, tags string) (err error) {
 			default:
 				return fmt.Errorf("I only know how to tag EKS clusters and managed node groups, and %s seems to be neither", arns)
 			}
+		case "ecr":
+			switch {
+			case strings.HasPrefix(arnres.Resource, "repository"): // arn:aws:ecr:*:*:repository
+				err = tagecr(region, arns, key, value)
+			default:
+				return fmt.Errorf("I only know how to tag ECR repos, and %s seems not to be one", arns)
+			}
 		default:
 			return fmt.Errorf("Don't know how to tag resources of type %s", rtype)
 		}
@@ -95,6 +92,16 @@ func rtag(region, arns, rtype, tags string) (err error) {
 		}
 	}
 	return nil
+}
+
+// guesstype extracts the resource type of the ARN, see also:
+// https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+func guesstype(arns string) (string, error) {
+	arnres, err := arn.Parse(arns)
+	if err != nil {
+		return "", err
+	}
+	return arnres.Service, nil
 }
 
 // expand splits a tag of the form 'key1=val1, key2=val2' into a string slice

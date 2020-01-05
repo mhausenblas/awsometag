@@ -39,6 +39,7 @@ Currently, the following services are supported by `awsometag`:
 - [IAM](#iam)
 - [S3](#s3)
 - [EKS](#eks)
+- [ECR](#ecr)
 
 ### IAM
 
@@ -137,3 +138,23 @@ $ aws eks list-tags-for-resource \
 ```
 
 Note: the same works for tagging [managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html).
+
+### ECR
+
+To tag the ECR repo `arn:aws:ecr:us-west-2:123456789102:repository/somerepo` 
+with `my=containers`, use the following:
+
+```sh
+# tag:
+$ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster us-west-1 my=containers
+2020/01/05 08:26:03 Tagging EKS cluster 'somecluster' in region 'us-west-1' with my:containers
+
+# verify the tagging:
+$ aws eks list-tags-for-resource \
+      --resource-arn arn:aws:eks:us-west-1:123456789102:cluster/somecluster
+{
+    "tags": {
+        "my": "containers"
+    }
+}
+```
