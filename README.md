@@ -45,7 +45,7 @@ If you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with
 `nice=person` and `they=oweme` then you'd want to use the following:
 
 ```sh
-$ awsometag arn:aws:iam::123456789012:user/abc eu-west-1 "nice=person, they=oweme"
+$ awsometag arn:aws:iam::123456789012:user/abc - "nice=person, they=oweme"
 
 $ aws iam list-user-tags --user-name abc
 {
@@ -63,7 +63,10 @@ $ aws iam list-user-tags --user-name abc
 }
 ```
 
-The same works for IAM roles.
+Note: the same works for IAM roles. Also: since IAM is a global service, 
+we don't specify a region here, that is, you can pass whatever value you
+want there as the second argument, it will be ignored—however, some value is 
+required, so I chose `-`.
 
 ### S3
 
