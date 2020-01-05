@@ -59,4 +59,17 @@ Or maybe you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with
 $ awsometag arn:aws:iam::123456789012:user/abc eu-west-1 "nice=person, they=oweme"
 
 $ aws iam list-user-tags --user-name abc
+{
+    "Tags": [
+        {
+            "Key": "nice",
+            "Value": "person"
+        },
+        {
+            "Key": "they",
+            "Value": "oweme"
+        }
+    ],
+    "IsTruncated": false
+}
 ```
