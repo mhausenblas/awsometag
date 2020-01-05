@@ -52,7 +52,7 @@ If you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with
 
 ```sh
 # tag:
-$ awsometag arn:aws:iam::123456789012:user/abc - "nice=person, they=oweme"
+$ awsometag arn:aws:iam::123456789012:user/abc "nice=person, they=oweme"
 
 # verify the tagging:
 $ aws iam list-user-tags \
@@ -72,10 +72,7 @@ $ aws iam list-user-tags \
 }
 ```
 
-Note: the same works for IAM roles. Also: since IAM is a global service, 
-we don't specify a region here, that is, you can pass whatever value you
-want there as the second argument, it will be ignored—however, some value is 
-required, so I chose `-`.
+Note: the same works for IAM roles.
 
 ### S3
 
@@ -83,7 +80,7 @@ To tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you would use:
 
 ```sh
 # tag:
-$ awsometag arn:aws:s3:us-west-2::abucket us-west-2 thats=cool
+$ awsometag arn:aws:s3:us-west-2::abucket thats=cool
 2020/01/04 13:54:32 Tagging S3 bucket 'abucket' in region 'us-west-2' with thats:cool
 
 # verify the tagging:
@@ -108,7 +105,7 @@ Tagging works the same for objects in a bucket: let's tag the object with the ke
 
 ```sh
 # tag:
-$ S3_ENDPOINT_REGION=us-west-2 awsometag arn:aws:s3:::abucket/input.csv us-west-2 this=aswell
+$ S3_ENDPOINT_REGION=us-west-2 awsometag arn:aws:s3:::abucket/input.csv this=aswell
 2020/01/05 07:03:50 Tagging S3 object 'input.csv' in bucket 'abucket' with this:aswell
 
 # verify the tagging:
@@ -125,6 +122,27 @@ $ aws s3api get-object-tagging \
 }
 ```
 
+### Lambda
+
+To tag the Lambda function `arn:aws:lambda:us-west-2:123456789102:function:coolapp-TheFunc-1234567` 
+with `server=less`, use:
+
+```sh
+# tag:
+$ awsometag arn:aws:lambda:us-west-2:123456789102:function:coolapp-TheFunc-1234567 server=less
+2020/01/05 14:16:47 Tagging Lambda function 'coolapp-TheFunc-1234567' in region 'us-west-2' with server:less
+
+# verify the tagging:
+$ aws lambda list-tags \
+      --resource arn:aws:lambda:us-west-2:123456789102:function:coolapp-TheFunc-1234567
+{
+    "Tags": {
+        "server": "less"   
+    }
+}
+```
+
+
 ### ECR
 
 To tag the ECR repo `arn:aws:ecr:us-east-1:123456789102:repository/somerepo` 
@@ -132,7 +150,7 @@ with `my=containers`, use the following:
 
 ```sh
 # tag:
-$ awsometag arn:aws:ecr:us-east-1:123456789102:repository/somerepo us-east-1 my=containers
+$ awsometag arn:aws:ecr:us-east-1:123456789102:repository/somerepo my=containers
 2020/01/05 09:43:03 Tagging ECR repository 'somerepo' in region 'us-east-1' with my:containers
 
 # verify the tagging:
@@ -155,7 +173,7 @@ with `my=containers`, use the following:
 
 ```sh
 # tag:
-$ awsometag arn:aws:ecs:us-west-2:123456789102:task-definition/nginx:3 us-west-2 my=containers
+$ awsometag arn:aws:ecs:us-west-2:123456789102:task-definition/nginx:3 my=containers
 2020/01/05 13:13:44 Tagging ECS task definition 'nginx:3' in region 'us-west-2' with my:containers
 
 # verify the tagging:
@@ -178,7 +196,7 @@ with `my=containers`, use the following:
 
 ```sh
 # tag:
-$ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster us-west-1 my=containers
+$ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster my=containers
 2020/01/05 08:26:03 Tagging EKS cluster 'somecluster' in region 'us-west-1' with my:containers
 
 # verify the tagging:

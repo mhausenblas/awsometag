@@ -71,6 +71,8 @@ func rtag(arns, rtype, tags string) (err error) {
 			default:
 				return fmt.Errorf("I know how to tag S3 buckets and objects, and %s seems to be neither", arns)
 			}
+		case "lambda":
+			err = taglambda(arnres, key, value)
 		case "eks":
 			switch {
 			case strings.HasPrefix(arnres.Resource, "cluster"), // arn:aws:eks:*:*:cluster

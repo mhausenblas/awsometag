@@ -3,11 +3,14 @@ package main
 
 import (
 	"log"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/arn"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/iam"
+	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
@@ -147,5 +150,20 @@ func tags3bucket(region, bucketname, key, value string) error {
 			log.Println(err.Error())
 		}
 	}
+	return err
+}
+
+// taglambda tags a Lambda function
+func taglambda(arnres arn.ARN, key, value string) error {
+	// arn:aws:lambda:us-west-2:123456789102:function:somefunc
+	region := arnres.Region
+	funcname := strings.Split(arnres.Resource, ":")[1]
+	log.Printf("Tagging Lambda function '%s' in region '%s' with %s:%s",
+		funcname, region, key, value)
+	svc := lambda.New(session.Must(session.NewSession()), aws.NewConfig().WithRegion(region))
+	_, err := svc.TagResource(&lambda.TagResourceInput{
+		Resource: aws.String(arnres.String()),
+		Tags:     map[string]*string{key: aws.String(value)},
+	})
 	return err
 }
