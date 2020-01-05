@@ -12,7 +12,8 @@ import (
 
 // tags3object tags an S3 object in a bucket
 func tags3object(region, bucketname, objectname, key, value string) error {
-	log.Printf("Tagging S3 object '%s' in bucket '%s' with %s:%s", objectname, bucketname, key, value)
+	log.Printf("Tagging S3 object '%s' in bucket '%s' in region '%s' with %s:%s",
+		objectname, bucketname, region, key, value)
 	svc := s3.New(session.Must(session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String(region),
@@ -45,7 +46,8 @@ func tags3object(region, bucketname, objectname, key, value string) error {
 
 // tags3bucket tags an S3 bucket
 func tags3bucket(region, bucketname, key, value string) error {
-	log.Printf("Tagging S3 bucket '%s' with %s:%s", bucketname, key, value)
+	log.Printf("Tagging S3 bucket '%s' in region '%s' with %s:%s",
+		bucketname, region, key, value)
 	svc := s3.New(session.Must(session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String(region),
