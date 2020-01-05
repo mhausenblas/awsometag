@@ -10,22 +10,20 @@ import (
 )
 
 func main() {
-	if len(os.Args[1:]) < 3 {
-		log.Fatalln("Need: resource ARN, region, and tags, sorry :(")
+	if len(os.Args[1:]) < 2 {
+		log.Fatalln("Need both the resource ARN and tags, sorry :(")
 	}
 	// the ARN of the resource to tag is supposed to be the first argument:
 	arns := os.Args[1]
-	// the region to apply the tagging in:
-	region := os.Args[2]
 	// a comma-separated list of tags os supposed to be the second argument:
-	tags := os.Args[3]
+	tags := os.Args[2]
 	// first try to guess the resource type:
 	rtype, err := guesstype(arns)
 	if err != nil {
 		log.Fatalf("Can't guess the type of resource based on the ARN %s", arns)
 	}
 	// and finally try to tag the resource/with the tags provided:
-	err = rtag(region, arns, rtype, tags)
+	err = rtag(arns, rtype, tags)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -34,13 +32,14 @@ func main() {
 // rtag tags a resource with ARN arns and a certain type rtype
 // with a comma-separated list of tags or fails if it
 // doesn't support the resource type
-func rtag(region, arns, rtype, tags string) (err error) {
+func rtag(arns, rtype, tags string) (err error) {
 	taglist := expand(tags)
 	for _, tag := range taglist {
 		arnres, key, value, err := preflight(arns, tag)
 		if err != nil {
 			return err
 		}
+		region := arnres.Region
 		switch rtype {
 		case "iam":
 			iamtype := strings.Split(arnres.Resource, "/")[0]
@@ -55,6 +54,9 @@ func rtag(region, arns, rtype, tags string) (err error) {
 				return fmt.Errorf("I know how to tag IAM users and roles, and %s seems to be neither", arns)
 			}
 		case "s3":
+			if r := os.Getenv("S3_ENDPOINT_REGION"); r != "" {
+				region = r
+			}
 			// note that the following is a simplified case distinction since there
 			// are other resource types (accesspoint and jobs) defined by the S3 service
 			// see https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html#amazons3-resources-for-iam-policies
