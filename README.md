@@ -34,26 +34,15 @@ That is, the general usage pattern is as follows:
 $ awsometag RESOURCE_ARN REGION "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
 ```
 
-For example, to tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you 
-would use the following command:
+Currently, the following services are supported by `awsometag`:
 
-```sh
-$ awsometag arn:aws:s3:::abucket us-west-2 thats=cool
-2020/01/04 13:54:32 Tagging S3 bucket 'abucket' with thats:cool
+- [IAM](#iam)
+- [S3](#s3)
 
-$ aws s3api get-bucket-tagging --bucket abucket
-{
-    "TagSet": [
-        {
-            "Key": "thats",
-            "Value": "cool"
-        }
-    ]
-}
-```
+### IAM
 
-Or maybe you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with
-`nice=person` and `they=oweme`? Then you'd want to use the following:
+If you want to tag the IAM user `arn:aws:iam::123456789012:user/abc` with
+`nice=person` and `they=oweme` then you'd want to use the following:
 
 ```sh
 $ awsometag arn:aws:iam::123456789012:user/abc eu-west-1 "nice=person, they=oweme"
@@ -71,5 +60,44 @@ $ aws iam list-user-tags --user-name abc
         }
     ],
     "IsTruncated": false
+}
+```
+
+The same works for IAM roles.
+
+### S3
+
+To tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you would use:
+
+```sh
+$ awsometag arn:aws:s3:::abucket us-west-2 thats=cool
+2020/01/04 13:54:32 Tagging S3 bucket 'abucket' with thats:cool
+
+$ aws s3api get-bucket-tagging --bucket abucket
+{
+    "TagSet": [
+        {
+            "Key": "thats",
+            "Value": "cool"
+        }
+    ]
+}
+```
+
+Same works for objects in a bucket: let's tag the object with the key 
+`input.csv` residing in the bucket `abucket` with `this=aswell`:
+
+```sh
+$ awsometag arn:aws:s3:::abucket/input.csv us-west-2 this=aswell
+2020/01/05 07:03:50 Tagging S3 object 'input.csv' in bucket 'abucket' with this:aswell
+
+$ aws s3api get-object-tagging --bucket abucket --key input.csv
+{
+    "TagSet": [
+        {
+            "Key": "this",
+            "Value": "aswell"
+        }
+    ]
 }
 ```
