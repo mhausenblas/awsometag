@@ -1,4 +1,4 @@
-// All EKS service-related tagging functions
+// All container services-related tagging functions
 package main
 
 import (

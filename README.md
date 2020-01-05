@@ -39,10 +39,12 @@ Currently, `awsometag` supports tagging resources in:
 1. Fundamental services
    - AWS Identity and Access Management ([IAM](#iam))
    - Amazon Simple Storage Service ([S3](#s3))
+   - Lambda
 1. Container services
    - Amazon Elastic Container Registry ([ECR](#ecr))
    - Amazon Elastic Container Service ([ECS](#ecs))
    - Amazon Elastic Kubernetes Service ([EKS](#eks))
+
 
 ### IAM
 

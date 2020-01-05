@@ -1,4 +1,4 @@
-// All IAM service-related tagging functions
+// All fundamental services-related tagging functions
 package main
 
 import (
@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/iam"
+	"github.com/aws/aws-sdk-go/service/s3"
 )
 
 // tagiamrole tags an IAM role
@@ -72,6 +73,73 @@ func tagiamuser(username, key, value string) error {
 				log.Println(iam.ErrCodeConcurrentModificationException, aerr.Error())
 			case iam.ErrCodeServiceFailureException:
 				log.Println(iam.ErrCodeServiceFailureException, aerr.Error())
+			default:
+				log.Println(aerr.Error())
+			}
+		} else {
+			log.Println(err.Error())
+		}
+	}
+	return err
+}
+
+// tags3object tags an S3 object in a bucket
+func tags3object(region, bucketname, objectname, key, value string) error {
+	log.Printf("Tagging S3 object '%s' in bucket '%s' in region '%s' with %s:%s",
+		objectname, bucketname, region, key, value)
+	svc := s3.New(session.Must(session.NewSessionWithOptions(session.Options{
+		Config: aws.Config{
+			Region: aws.String(region),
+		},
+	})))
+	_, err := svc.PutObjectTagging(&s3.PutObjectTaggingInput{
+		Bucket: aws.String(bucketname),
+		Key:    aws.String(objectname),
+		Tagging: &s3.Tagging{
+			TagSet: []*s3.Tag{
+				{
+					Key:   aws.String(key),
+					Value: aws.String(value),
+				},
+			},
+		},
+	})
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			default:
+				log.Println(aerr.Error())
+			}
+		} else {
+			log.Println(err.Error())
+		}
+	}
+	return err
+}
+
+// tags3bucket tags an S3 bucket
+func tags3bucket(region, bucketname, key, value string) error {
+	log.Printf("Tagging S3 bucket '%s' in region '%s' with %s:%s",
+		bucketname, region, key, value)
+	svc := s3.New(session.Must(session.NewSessionWithOptions(session.Options{
+		Config: aws.Config{
+			Region: aws.String(region),
+		},
+	})))
+	_, err := svc.PutBucketTagging(&s3.PutBucketTaggingInput{
+		Bucket: aws.String(bucketname),
+		Tagging: &s3.Tagging{
+			TagSet: []*s3.Tag{
+				{
+					Key:   aws.String(key),
+					Value: aws.String(value),
+				},
+			},
+		},
+	})
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
 			default:
 				log.Println(aerr.Error())
 			}
