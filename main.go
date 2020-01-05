@@ -80,3 +80,14 @@ func compart(tag string) (key, val string) {
 	}
 	return kv[0], ""
 }
+
+// preflight converts the ARN string and a tag into an ARN object and a
+// key-value pair; a convenience function, only.
+func preflight(arnres, tag string) (a arn.ARN, k string, v string, err error) {
+	k, v = compart(tag)
+	a, err = arn.Parse(arnres)
+	if err != nil {
+		return a, "", "", err
+	}
+	return
+}
