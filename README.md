@@ -34,7 +34,7 @@ Hence, the general usage pattern for `awsometag` is:
 $ awsometag RESOURCE_ARN "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
 ```
 
-Currently, `awsometag` supports tagging :tag: resources in:
+Currently, `awsometag` supports tagging resources in:
 
 1. Fundamental services
    - <a href="#iam" title="AWS Identity and Access Management">IAM</a>: users, roles
@@ -44,6 +44,8 @@ Currently, `awsometag` supports tagging :tag: resources in:
    - <a href="#ecr" title="Amazon Elastic Container Registry">ECR</a>: repositories
    - <a href="#ecs" title="Amazon Elastic Container Service">ECS</a>: capacity providers, clusters, tasks, task definitions, services, and container instances
    - <a href="#eks" title="Amazon Elastic Kubernetes Service">EKS</a>: clusters, managed node groups
+
+:metal: and here are all the nitty gritty details …
 
 ### IAM
 
@@ -95,6 +97,8 @@ $ aws s3api get-bucket-tagging \
     ]
 }
 ```
+
+:fire:
 
 Note: if the S3 ARN does not contain the region, then you MUST provide the desired
 target region via the `S3_ENDPOINT_REGION` environment variable. For example, in 
