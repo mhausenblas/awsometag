@@ -146,12 +146,12 @@ with `my=containers`, use the following:
 
 ```sh
 # tag:
-$ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster us-west-1 my=containers
-2020/01/05 08:26:03 Tagging EKS cluster 'somecluster' in region 'us-west-1' with my:containers
+$ awsometag arn:aws:ecr:us-east-1:123456789102:repository/somerepo us-east-1 my=containers
+2020/01/05 09:43:03 Tagging ECR repository 'somerepo' in region 'us-east-1' with my:containers
 
 # verify the tagging:
 $ aws eks list-tags-for-resource \
-      --resource-arn arn:aws:eks:us-west-1:123456789102:cluster/somecluster
+      --resource-arn arn:aws:ecr:us-east-1:123456789102:repository/somerepo
 {
     "tags": {
         "my": "containers"
