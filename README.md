@@ -36,10 +36,13 @@ $ awsometag RESOURCE_ARN REGION "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
 
 Currently, the following services are supported by `awsometag`:
 
-- [IAM](#iam)
-- [S3](#s3)
-- [EKS](#eks)
-- [ECR](#ecr)
+1. fundamental services:
+   - AWS Identity and Access Management ([IAM](#iam))
+   - Amazon Simple Storage Service ([S3](#s3))
+1. container services:
+   - Amazon Elastic Container Registry ([ECR](#ecr))
+   - Amazon Elastic Container Service ([ECS](#ecs))
+   - Amazon Elastic Kubernetes Service ([EKS](#eks))
 
 ### IAM
 
@@ -117,28 +120,6 @@ $ aws s3api get-object-tagging \
 }
 ```
 
-### EKS
-
-To tag the EKS cluster `arn:aws:eks:us-west-2:123456789102:cluster/somecluster` 
-with `my=containers`, use the following:
-
-```sh
-# tag:
-$ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster us-west-1 my=containers
-2020/01/05 08:26:03 Tagging EKS cluster 'somecluster' in region 'us-west-1' with my:containers
-
-# verify the tagging:
-$ aws eks list-tags-for-resource \
-      --resource-arn arn:aws:eks:us-west-1:123456789102:cluster/somecluster
-{
-    "tags": {
-        "my": "containers"
-    }
-}
-```
-
-Note: the same works for tagging [managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html).
-
 ### ECR
 
 To tag the ECR repo `arn:aws:ecr:us-east-1:123456789102:repository/somerepo` 
@@ -184,3 +165,25 @@ $ aws ecs list-tags-for-resource \
     ]
 }
 ```
+
+### EKS
+
+To tag the EKS cluster `arn:aws:eks:us-west-2:123456789102:cluster/somecluster` 
+with `my=containers`, use the following:
+
+```sh
+# tag:
+$ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster us-west-1 my=containers
+2020/01/05 08:26:03 Tagging EKS cluster 'somecluster' in region 'us-west-1' with my:containers
+
+# verify the tagging:
+$ aws eks list-tags-for-resource \
+      --resource-arn arn:aws:eks:us-west-1:123456789102:cluster/somecluster
+{
+    "tags": {
+        "my": "containers"
+    }
+}
+```
+
+Note: the same works for tagging [managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html).
