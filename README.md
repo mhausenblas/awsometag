@@ -17,29 +17,29 @@ along with the ARG. In a sense, if one was to compare `awsometag` to ARGs, it wo
 be roughly offering the functionality of the [Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/tag-editor.html).
 
 ## Install it
-Install it by downloading one of the [binaries](https://github.com/mhausenblas/awsometag/releases) or,
+
+Install `awsometag` by downloading one of the [binaries](https://github.com/mhausenblas/awsometag/releases) or,
 if you have Go 1.12+ installed, you can clone this repo and build it from source.
 
 ## Use it
 
-`awsometag` takes exactly three arguments: 
+The `awsometag` CLI tool takes two arguments: 
 
 1. the ARN of the resource to tag,
-1. the region, and 
-1. a list of comma-separated tags in the format `key=value`
+1. a list of comma-separated tags, each in the format `key=value`
 
-That is, the general usage pattern is as follows:
+Hence, the general usage pattern for `awsometag` is:
 
 ```sh
-$ awsometag RESOURCE_ARN REGION "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
+$ awsometag RESOURCE_ARN "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
 ```
 
-Currently, the following services are supported by `awsometag`:
+Currently, `awsometag` supports tagging resources in:
 
-1. fundamental services:
+1. Fundamental services
    - AWS Identity and Access Management ([IAM](#iam))
    - Amazon Simple Storage Service ([S3](#s3))
-1. container services:
+1. Container services
    - Amazon Elastic Container Registry ([ECR](#ecr))
    - Amazon Elastic Container Service ([ECS](#ecs))
    - Amazon Elastic Kubernetes Service ([EKS](#eks))
@@ -82,8 +82,8 @@ To tag the bucket `arn:aws:s3:::abucket` with `thats=cool` you would use:
 
 ```sh
 # tag:
-$ awsometag arn:aws:s3:::abucket us-west-2 thats=cool
-2020/01/04 13:54:32 Tagging S3 bucket 'abucket' with thats:cool
+$ awsometag arn:aws:s3:us-west-2::abucket us-west-2 thats=cool
+2020/01/04 13:54:32 Tagging S3 bucket 'abucket' in region 'us-west-2' with thats:cool
 
 # verify the tagging:
 $ aws s3api get-bucket-tagging \
@@ -98,12 +98,16 @@ $ aws s3api get-bucket-tagging \
 }
 ```
 
-Same works for objects in a bucket: let's tag the object with the key 
+Note: if the S3 ARN does not contain the region, then you MUST provide the desired
+target region via the `S3_ENDPOINT_REGION` environment variable. For example, in 
+above case it would be: `S3_ENDPOINT_REGION=us-west-2 awsometag arn:aws:s3:::abucket us-west-2 thats=cool`.
+
+Tagging works the same for objects in a bucket: let's tag the object with the key 
 `input.csv` residing in the bucket `abucket` with `this=aswell`:
 
 ```sh
 # tag:
-$ awsometag arn:aws:s3:::abucket/input.csv us-west-2 this=aswell
+$ S3_ENDPOINT_REGION=us-west-2 awsometag arn:aws:s3:::abucket/input.csv us-west-2 this=aswell
 2020/01/05 07:03:50 Tagging S3 object 'input.csv' in bucket 'abucket' with this:aswell
 
 # verify the tagging:
