@@ -141,7 +141,7 @@ Note: the same works for tagging [managed node groups](https://docs.aws.amazon.c
 
 ### ECR
 
-To tag the ECR repo `arn:aws:ecr:us-west-2:123456789102:repository/somerepo` 
+To tag the ECR repo `arn:aws:ecr:us-east-1:123456789102:repository/somerepo` 
 with `my=containers`, use the following:
 
 ```sh
