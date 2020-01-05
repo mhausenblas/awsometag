@@ -52,7 +52,7 @@ func rtag(region, arns, rtype, tags string) (err error) {
 				rolename := strings.Split(arnres.Resource, "/")[1]
 				err = tagiamrole(rolename, key, value)
 			default:
-				return fmt.Errorf("Don't know how to tag resources of type %s", rtype)
+				return fmt.Errorf("I know how to tag IAM users and roles, and %s seems to be neither", arns)
 			}
 		case "s3":
 			// note that the following is a simplified case distinction since there
@@ -67,7 +67,7 @@ func rtag(region, arns, rtype, tags string) (err error) {
 				bucketname := arnres.Resource
 				err = tags3bucket(region, bucketname, key, value)
 			default:
-				return fmt.Errorf("I only know how to tag S3 buckets and objects, and %s seems to be neither", arns)
+				return fmt.Errorf("I know how to tag S3 buckets and objects, and %s seems to be neither", arns)
 			}
 		case "eks":
 			switch {
@@ -75,14 +75,26 @@ func rtag(region, arns, rtype, tags string) (err error) {
 				strings.HasPrefix(arnres.Resource, "nodegroup"): // arn:aws:eks:*:*:nodegroup
 				err = tageks(region, arns, key, value)
 			default:
-				return fmt.Errorf("I only know how to tag EKS clusters and managed node groups, and %s seems to be neither", arns)
+				return fmt.Errorf("I know how to tag EKS clusters and managed node groups, and %s seems to be neither", arns)
 			}
 		case "ecr":
 			switch {
 			case strings.HasPrefix(arnres.Resource, "repository"): // arn:aws:ecr:*:*:repository
 				err = tagecr(region, arns, key, value)
 			default:
-				return fmt.Errorf("I only know how to tag ECR repos, and %s seems not to be one", arns)
+				return fmt.Errorf("I know how to tag ECR repos, and %s seems not to be one", arns)
+			}
+		case "ecs":
+			switch {
+			case strings.HasPrefix(arnres.Resource, "capacity-provider"), // arn:aws:ecs:*:*:capacity-provider/*
+				strings.HasPrefix(arnres.Resource, "cluster"),           // arn:aws:ecs:*:*:cluster/*
+				strings.HasPrefix(arnres.Resource, "task"),              // arn:aws:ecs:*:*:task/cluster/*
+				strings.HasPrefix(arnres.Resource, "task-definition"),   // arn:aws:ecs:*:*:task-definition/*
+				strings.HasPrefix(arnres.Resource, "service"),           // arn:aws:ecs:*:*:service/*
+				strings.HasPrefix(arnres.Resource, "capacity-provider"): // arn:aws:ecs:*:*:capacity-provider/*
+				err = tagecs(region, arns, key, value)
+			default:
+				return fmt.Errorf("I only know how to tag ECS capacity providers, clusters, tasks, task definitions, services, and container instances, and %s seems to be not one of those", arns)
 			}
 		default:
 			return fmt.Errorf("Don't know how to tag resources of type %s", rtype)
