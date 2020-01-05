@@ -150,11 +150,37 @@ $ awsometag arn:aws:ecr:us-east-1:123456789102:repository/somerepo us-east-1 my=
 2020/01/05 09:43:03 Tagging ECR repository 'somerepo' in region 'us-east-1' with my:containers
 
 # verify the tagging:
-$ aws eks list-tags-for-resource \
+$ aws ecr list-tags-for-resource \
       --resource-arn arn:aws:ecr:us-east-1:123456789102:repository/somerepo
 {
-    "tags": {
-        "my": "containers"
-    }
+    "tags": [
+        {
+            "Key": "my",
+            "Value": "containers"
+        }
+    ]
+}
+```
+
+### ECS
+
+To tag the ECS task definition `arn:aws:ecs:us-west-2:123456789102:task-definition/nginx:3` 
+with `my=containers`, use the following:
+
+```sh
+# tag:
+$ awsometag arn:aws:ecs:us-west-2:123456789102:task-definition/nginx:3 us-west-2 my=containers
+2020/01/05 13:13:44 Tagging ECS task definition 'nginx:3' in region 'us-west-2' with my:containers
+
+# verify the tagging:
+$ aws ecs list-tags-for-resource \
+      --resource-arn arn:aws:ecs:us-west-2:123456789102:task-definition/nginx:3
+{
+    "tags": [
+        {
+            "key": "some",
+            "value": "thing"
+        }
+    ]
 }
 ```
