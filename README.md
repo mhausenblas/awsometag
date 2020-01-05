@@ -128,7 +128,7 @@ $ awsometag arn:aws:eks:us-west-2:123456789102:cluster/somecluster us-west-1 my=
 
 # verify the tagging:
 $ aws eks list-tags-for-resource \
-      --resource-arn arn:aws:eks:us-west-2:123456789102:cluster/somecluster
+      --resource-arn arn:aws:eks:us-west-1:123456789102:cluster/somecluster
 {
     "tags": {
         "my": "containers"
