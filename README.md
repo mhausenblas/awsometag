@@ -40,6 +40,7 @@ Currently, `awsometag` supports tagging resources in:
    - <a href="#iam" title="AWS Identity and Access Management">IAM</a>: users, roles
    - <a href="#s3" title="Amazon Simple Storage Service">S3</a>:  buckets, objects
    - <a href="#lambda" title="AWS Lambda">Lambda</a>: functions
+   - <a href="#dynamodb" title="Amazon DynamoDB">DynamoDB</a>: tables
 1. Container services
    - <a href="#ecr" title="Amazon Elastic Container Registry">ECR</a>: repositories
    - <a href="#ecs" title="Amazon Elastic Container Service">ECS</a>: capacity providers, clusters, tasks, task definitions, services, and container instances
