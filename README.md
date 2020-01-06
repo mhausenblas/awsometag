@@ -146,6 +146,28 @@ $ aws lambda list-tags \
 }
 ```
 
+### DynamoDB
+
+To tag the DynamoDB table `arn:aws:dynamodb:us-west-2:123456789102:table/TheTable` 
+with `some=thing`, use:
+
+```sh
+# tag:
+$ awsometag arn:aws:dynamodb:us-west-2:123456789102:table/TheTable some=thing
+2020/01/06 05:35:48 Tagging DynamoDB table 'TheTable' in region 'us-west-2' with some:thing
+
+# verify the tagging:
+$ aws dynamodb list-tags-of-resource \
+      --resource-arn arn:aws:dynamodb:us-west-2:123456789102:table/TheTable
+{
+    "Tags": [
+        {
+            "Key": "some",
+            "Value": "thing"
+        }
+    ]
+}
+```
 
 ### ECR
 

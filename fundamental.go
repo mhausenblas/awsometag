@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/arn"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -164,6 +165,26 @@ func taglambda(arnres arn.ARN, key, value string) error {
 	_, err := svc.TagResource(&lambda.TagResourceInput{
 		Resource: aws.String(arnres.String()),
 		Tags:     map[string]*string{key: aws.String(value)},
+	})
+	return err
+}
+
+// tagdynamodb tags a DynamoDB table
+func tagdynamodb(arnres arn.ARN, key, value string) error {
+	// arn:aws:dynamodb:us-west-2:123456789102:table/TheTable
+	region := arnres.Region
+	tablename := strings.Split(arnres.Resource, "/")[1]
+	log.Printf("Tagging DynamoDB table '%s' in region '%s' with %s:%s",
+		tablename, region, key, value)
+	svc := dynamodb.New(session.Must(session.NewSession()), aws.NewConfig().WithRegion(region))
+	_, err := svc.TagResource(&dynamodb.TagResourceInput{
+		ResourceArn: aws.String(arnres.String()),
+		Tags: []*dynamodb.Tag{
+			{
+				Key:   aws.String(key),
+				Value: aws.String(value),
+			},
+		},
 	})
 	return err
 }
