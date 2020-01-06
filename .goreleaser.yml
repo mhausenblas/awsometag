@@ -1,0 +1,30 @@
+project_name: awsometag
+release:
+  github:
+    owner: mhausenblas
+    name: awsometag
+builds:
+  - id: awsometag
+    goos:
+    - linux
+    - windows
+    - darwin
+    goarch:
+    - amd64
+    - "386"
+    - arm
+    - arm64
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    main: main.go
+    ldflags: -s -w
+      -X github.com/mhausenblas/awsometag/version.version=
+archives:
+  - id: awsometag
+    builds:
+    - awsometag
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+    - goos: windows
+      format: zip
