@@ -407,7 +407,7 @@
                 <h2 id="iam">IAM<a class="headerlink" href="#iam" title="Permanent link">&para;</a></h2>
 <p>If you want to tag the IAM user <code>arn:aws:iam::123456789012:user/abc</code> with
 <code>nice=person</code> and <code>they=oweme</code> then you'd want to use the following:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -453,7 +453,7 @@ $ aws iam list-user-tags <span class="se">\</span>
 </div>
 <h2 id="s3">S3<a class="headerlink" href="#s3" title="Permanent link">&para;</a></h2>
 <p>To tag the bucket <code>arn:aws:s3:::abucket</code> with <code>thats=cool</code> you would use:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -492,7 +492,7 @@ target region via the <code>S3_ENDPOINT_REGION</code> environment variable. For 
 </div>
 <p>Tagging works the same for objects in a bucket: let's tag the object with the key 
 <code>input.csv</code> residing in the bucket <code>abucket</code> with <code>this=aswell</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -529,7 +529,7 @@ $ aws s3api get-object-tagging <span class="se">\</span>
 <h2 id="lambda">Lambda<a class="headerlink" href="#lambda" title="Permanent link">&para;</a></h2>
 <p>To tag the Lambda function <code>arn:aws:lambda:us-west-2:123456789102:function:coolapp-TheFunc-1234567</code> 
 with <code>server=less</code>, use:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -558,7 +558,7 @@ $ aws lambda list-tags <span class="se">\</span>
 <h2 id="dynamodb">DynamoDB<a class="headerlink" href="#dynamodb" title="Permanent link">&para;</a></h2>
 <p>To tag the DynamoDB table <code>arn:aws:dynamodb:us-west-2:123456789102:table/TheTable</code> 
 with <code>some=thing</code>, use:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -593,7 +593,7 @@ $ aws dynamodb list-tags-of-resource <span class="se">\</span>
 <h2 id="ec2">EC2<a class="headerlink" href="#ec2" title="Permanent link">&para;</a></h2>
 <p>To tag the EC2 instance <code>arn:aws:ec2:us-west-2:123456789102:instance/i-123456789</code> 
 with <code>some=thing</code>, use:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4

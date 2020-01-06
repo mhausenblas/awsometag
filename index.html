@@ -370,7 +370,27 @@
 <p>If you want to tag AWS resources via the CLI in a uniform manner, then <code>awsometag</code> might be just the tool you're looking for.</p>
 <h2 id="install-it">Install it<a class="headerlink" href="#install-it" title="Permanent link">&para;</a></h2>
 <p>Install <code>awsometag</code> by downloading one of the <a href="https://github.com/mhausenblas/awsometag/releases">binaries</a> or,
-if you have Go 1.12+ installed, you can clone this repo and build it from source.</p>
+if you have Go 1.12+ installed, you can clone this repo and build it from source using <code>make bin</code>.</p>
+<details class="example"><summary>Install on macOS</summary><p>For example, to install <code>awsometag</code> from binary on macOS you would do:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>curl -L https://github.com/mhausenblas/awsometag/releases/latest/download/awsometag_darwin_amd64.tar.gz <span class="se">\</span>
+    -o awsometag.tar.gz <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    tar xvzf awsometag.tar.gz awsometag <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    mv awsometag /usr/local/bin <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    rm awsometag*
+</pre></div>
+</td></tr></table>
+
+</details>
+<p>Supported platforms:</p>
+<ul>
+<li>Linux (both Intel and ARM)</li>
+<li>macOS</li>
+<li>Windows</li>
+</ul>
 <h2 id="use-it">Use it<a class="headerlink" href="#use-it" title="Permanent link">&para;</a></h2>
 <p>The <code>awsometag</code> CLI tool takes two arguments: </p>
 <ol>
@@ -378,7 +398,7 @@ if you have Go 1.12+ installed, you can clone this repo and build it from source
 <li>a list of comma-separated tags, each in the format <code>key=value</code></li>
 </ol>
 <p>Hence, the general usage pattern for <code>awsometag</code> is:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ awsometag RESOURCE_ARN <span class="s2">&quot;TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,...&quot;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ awsometag RESOURCE_ARN <span class="s2">&quot;TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,...&quot;</span>
 </pre></div>
 </td></tr></table>
 
