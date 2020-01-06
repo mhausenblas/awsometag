@@ -5,7 +5,24 @@ If you want to tag AWS resources via the CLI in a uniform manner, then `awsometa
 ## Install it
 
 Install `awsometag` by downloading one of the [binaries](https://github.com/mhausenblas/awsometag/releases) or,
-if you have Go 1.12+ installed, you can clone this repo and build it from source.
+if you have Go 1.12+ installed, you can clone this repo and build it from source using `make bin`.
+
+??? example "Install on macOS"
+    For example, to install `awsometag` from binary on macOS you would do:
+
+    ```sh
+    curl -L https://github.com/mhausenblas/awsometag/releases/latest/download/awsometag_darwin_amd64.tar.gz \
+        -o awsometag.tar.gz && \
+        tar xvzf awsometag.tar.gz awsometag && \
+        mv awsometag /usr/local/bin && \
+        rm awsometag*
+    ```
+
+Supported platforms:
+
+- Linux (both Intel and ARM)
+- macOS
+- Windows
 
 ## Use it
 
