@@ -75,6 +75,8 @@ func rtag(arns, rtype, tags string) (err error) {
 			err = taglambda(arnres, key, value)
 		case "dynamodb":
 			err = tagdynamodb(arnres, key, value)
+		case "ec2":
+			err = tagec2(arnres, key, value)
 		case "eks":
 			switch {
 			case strings.HasPrefix(arnres.Resource, "cluster"), // arn:aws:eks:*:*:cluster

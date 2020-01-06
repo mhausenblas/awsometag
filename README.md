@@ -41,6 +41,7 @@ Currently, `awsometag` supports tagging resources in:
    - <a href="#s3" title="Amazon Simple Storage Service">S3</a>:  buckets, objects
    - <a href="#lambda" title="AWS Lambda">Lambda</a>: functions
    - <a href="#dynamodb" title="Amazon DynamoDB">DynamoDB</a>: tables
+   - <a href="#ec2" title="Amazon Elastic Compute Cloud">EC2</a>: all resources
 1. Container services
    - <a href="#ecr" title="Amazon Elastic Container Registry">ECR</a>: repositories
    - <a href="#ecs" title="Amazon Elastic Container Service">ECS</a>: capacity providers, clusters, tasks, task definitions, services, and container instances
@@ -169,6 +170,36 @@ $ aws dynamodb list-tags-of-resource \
     ]
 }
 ```
+
+### EC2
+
+To tag the EC2 instance `arn:aws:ec2:us-west-2:123456789102:instance/i-123456789` 
+with `some=thing`, use:
+
+```sh
+# tag:
+$ awsometag arn:aws:ec2:us-west-2:123456789102:instance/i-123456789 some=thing
+2020/01/06 06:15:42 Tagging EC2 resource 'i-123456789' of type 'instance' in region 'us-west-2' with some:thing
+
+# verify the tagging:
+$ aws ec2 describe-tags \
+      --filters "Name=resource-id,Values=i-123456789"
+{
+    "Tags": [
+        {
+            "Key": "some",
+            "ResourceId": "i-123456789",
+            "ResourceType": "instance",
+            "Value": "thing"
+        }
+    ]
+}
+```
+
+Note that EC2 defines a range of 
+[resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies),
+from instances to volumes to VPCs. All of them are supported and you'll need to
+compose the ARNs yourself.
 
 ### ECR
 

@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -180,6 +181,28 @@ func tagdynamodb(arnres arn.ARN, key, value string) error {
 	_, err := svc.TagResource(&dynamodb.TagResourceInput{
 		ResourceArn: aws.String(arnres.String()),
 		Tags: []*dynamodb.Tag{
+			{
+				Key:   aws.String(key),
+				Value: aws.String(value),
+			},
+		},
+	})
+	return err
+}
+
+// tagec2 tags EC2 resources as defined in:
+// https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies
+func tagec2(arnres arn.ARN, key, value string) error {
+	// arn:aws:ec2:us-west-2:123456789102:*/*
+	region := arnres.Region
+	resourcetype := strings.Split(arnres.Resource, "/")[0]
+	resourceid := strings.Split(arnres.Resource, "/")[1]
+	log.Printf("Tagging EC2 resource '%s' of type '%s' in region '%s' with %s:%s",
+		resourceid, resourcetype, region, key, value)
+	svc := ec2.New(session.Must(session.NewSession()), aws.NewConfig().WithRegion(region))
+	_, err := svc.CreateTags(&ec2.CreateTagsInput{
+		Resources: []*string{aws.String(resourceid)},
+		Tags: []*ec2.Tag{
 			{
 				Key:   aws.String(key),
 				Value: aws.String(value),
