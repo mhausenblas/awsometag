@@ -17,7 +17,7 @@ builds:
     env:
       - CGO_ENABLED=0
       - GO111MODULE=on
-    main: main.go
+    main: .
     ldflags: -s -w
       -X github.com/mhausenblas/awsometag/version.version=
 archives:
