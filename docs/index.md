@@ -1,5 +1,3 @@
-# awsometag
-
 If you want to tag AWS resources via the CLI in a uniform manner, then `awsometag` might be just the tool you're looking for.
 
 ## Install it
@@ -37,13 +35,38 @@ Hence, the general usage pattern for `awsometag` is:
 $ awsometag RESOURCE_ARN "TAG_KEY1=TAG_VAL1,TAG_KEY2=TAG_VAL2,..."
 ```
 
-Currently, `awsometag` supports tagging resources in:
+## Supported resources
 
-- AWS Identity and Access Management: users, roles
-- Amazon Simple Storage Service:  buckets, objects
+Currently, `awsometag` supports tagging resources for the following services:
+
+**Fundamental** services:
+
+- AWS Identity and Access Management:
+    - users
+    - roles
+- Amazon Simple Storage Service:
+    - buckets
+    - objects
 - AWS Lambda: functions
 - Amazon DynamoDB: tables
 - Amazon Elastic Compute Cloud: all resources
+  
+**Networking** services:
+
+- Elastic Load Balancing:
+    - Classic LBs
+    - ALBs
+    - NLBs
+
+**Container** services:
+
 - Amazon Elastic Container Registry: repositories
-- Amazon Elastic Container Service: capacity providers, clusters, tasks, task definitions, services, and container instances
-- Amazon Elastic Kubernetes Service: clusters, managed node groups
+- Amazon Elastic Container Service:
+    - capacity providers
+    - clusters
+    - tasks and task definitions
+    - services
+    - container instances
+- Amazon Elastic Kubernetes Service:
+    - clusters
+    - managed node groups

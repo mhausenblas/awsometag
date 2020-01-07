@@ -5,16 +5,19 @@ repo_name: 'mhausenblas/awsometag'
 repo_url: 'https://github.com/mhausenblas/awsometag'
 copyright: 'Copyright &copy; 2020 Amazon'
 nav:
-    - Home: index.md
+    - Overview: index.md
     - Fundamental: fundamental.md
     - Networking: networking.md
     - Containers: containers.md
     - About: about.md
 theme:
     name: 'material'
+    font:
+      text: 'Lato'
+      code: 'PT Mono'
     palette:
       primary: 'orange'
-      accent: 'amber'
+      accent: 'blue'
     highlightjs: true
     hljs_languages:
         - yaml
