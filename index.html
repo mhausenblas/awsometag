@@ -60,8 +60,8 @@
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|PT+Mono&display=fallback">
+        <style>body,input{font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"PT Mono","Courier New",Courier,monospace}</style>
       
     
     <link rel="stylesheet" href="assets/fonts/material-icons.css">
@@ -75,7 +75,7 @@
   
     
     
-    <body dir="ltr" data-md-color-primary="orange" data-md-color-accent="amber">
+    <body dir="ltr" data-md-color-primary="orange" data-md-color-accent="blue">
   
     <svg class="md-svg">
       <defs>
@@ -89,7 +89,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#awsometag" tabindex="1" class="md-skip">
+      <a href="#install-it" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -115,7 +115,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Home
+                Overview
               
             </span>
           
@@ -231,22 +231,18 @@
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
-      
-    
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Home
+        Overview
       </label>
     
-    <a href="." title="Home" class="md-nav__link md-nav__link--active">
-      Home
+    <a href="." title="Overview" class="md-nav__link md-nav__link--active">
+      Overview
     </a>
     
       
 <nav class="md-nav md-nav--secondary">
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
@@ -262,6 +258,13 @@
         <li class="md-nav__item">
   <a href="#use-it" title="Use it" class="md-nav__link">
     Use it
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-resources" title="Supported resources" class="md-nav__link">
+    Supported resources
   </a>
   
 </li>
@@ -283,8 +286,8 @@
 
 
   <li class="md-nav__item">
-    <a href="fundamental/" title="Fundamental services" class="md-nav__link">
-      Fundamental services
+    <a href="fundamental/" title="Fundamental" class="md-nav__link">
+      Fundamental
     </a>
   </li>
 
@@ -295,8 +298,20 @@
 
 
   <li class="md-nav__item">
-    <a href="containers/" title="Container services" class="md-nav__link">
-      Container services
+    <a href="networking/" title="Networking" class="md-nav__link">
+      Networking
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="containers/" title="Containers" class="md-nav__link">
+      Containers
     </a>
   </li>
 
@@ -327,8 +342,6 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
@@ -343,6 +356,13 @@
         <li class="md-nav__item">
   <a href="#use-it" title="Use it" class="md-nav__link">
     Use it
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-resources" title="Supported resources" class="md-nav__link">
+    Supported resources
   </a>
   
 </li>
@@ -366,8 +386,9 @@
                   <a href="https://github.com/mhausenblas/awsometag/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="awsometag">awsometag<a class="headerlink" href="#awsometag" title="Permanent link">&para;</a></h1>
-<p>If you want to tag AWS resources via the CLI in a uniform manner, then <code>awsometag</code> might be just the tool you're looking for.</p>
+                  <h1>Overview</h1>
+                
+                <p>If you want to tag AWS resources via the CLI in a uniform manner, then <code>awsometag</code> might be just the tool you're looking for.</p>
 <h2 id="install-it">Install it<a class="headerlink" href="#install-it" title="Permanent link">&para;</a></h2>
 <p>Install <code>awsometag</code> by downloading one of the <a href="https://github.com/mhausenblas/awsometag/releases">binaries</a> or,
 if you have Go 1.12+ installed, you can clone this repo and build it from source using <code>make bin</code>.</p>
@@ -402,16 +423,49 @@ if you have Go 1.12+ installed, you can clone this repo and build it from source
 </pre></div>
 </td></tr></table>
 
-<p>Currently, <code>awsometag</code> supports tagging resources in:</p>
+<h2 id="supported-resources">Supported resources<a class="headerlink" href="#supported-resources" title="Permanent link">&para;</a></h2>
+<p>Currently, <code>awsometag</code> supports tagging resources for the following services:</p>
+<p><strong>Fundamental</strong> services:</p>
 <ul>
-<li>AWS Identity and Access Management: users, roles</li>
-<li>Amazon Simple Storage Service:  buckets, objects</li>
+<li>AWS Identity and Access Management:<ul>
+<li>users</li>
+<li>roles</li>
+</ul>
+</li>
+<li>Amazon Simple Storage Service:<ul>
+<li>buckets</li>
+<li>objects</li>
+</ul>
+</li>
 <li>AWS Lambda: functions</li>
 <li>Amazon DynamoDB: tables</li>
 <li>Amazon Elastic Compute Cloud: all resources</li>
+</ul>
+<p><strong>Networking</strong> services:</p>
+<ul>
+<li>Elastic Load Balancing:<ul>
+<li>Classic LBs</li>
+<li>ALBs</li>
+<li>NLBs</li>
+</ul>
+</li>
+</ul>
+<p><strong>Container</strong> services:</p>
+<ul>
 <li>Amazon Elastic Container Registry: repositories</li>
-<li>Amazon Elastic Container Service: capacity providers, clusters, tasks, task definitions, services, and container instances</li>
-<li>Amazon Elastic Kubernetes Service: clusters, managed node groups</li>
+<li>Amazon Elastic Container Service:<ul>
+<li>capacity providers</li>
+<li>clusters</li>
+<li>tasks and task definitions</li>
+<li>services</li>
+<li>container instances</li>
+</ul>
+</li>
+<li>Amazon Elastic Kubernetes Service:<ul>
+<li>clusters</li>
+<li>managed node groups</li>
+</ul>
+</li>
 </ul>
                 
                   
@@ -434,13 +488,13 @@ if you have Go 1.12+ installed, you can clone this repo and build it from source
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="fundamental/" title="Fundamental services" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="fundamental/" title="Fundamental" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Fundamental services
+                Fundamental
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
