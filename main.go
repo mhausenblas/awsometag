@@ -77,6 +77,8 @@ func rtag(arns, rtype, tags string) (err error) {
 			err = tagdynamodb(arnres, key, value)
 		case "ec2":
 			err = tagec2(arnres, key, value)
+		case "elasticloadbalancing":
+			err = taglb(arnres, key, value)
 		case "eks":
 			switch {
 			case strings.HasPrefix(arnres.Resource, "cluster"), // arn:aws:eks:*:*:cluster
