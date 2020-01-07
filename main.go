@@ -78,7 +78,13 @@ func rtag(arns, rtype, tags string) (err error) {
 		case "ec2":
 			err = tagec2(arnres, key, value)
 		case "elasticloadbalancing":
-			err = taglb(arnres, key, value)
+			switch {
+			case strings.Contains(arnres.Resource, "loadbalancer/net"),
+				strings.Contains(arnres.Resource, "loadbalancer/app"): // modern ELB, use v2 API
+				err = taglb(arnres, key, value)
+			default: // a CLB, use original API
+				err = taglbclassic(arnres, key, value)
+			}
 		case "eks":
 			switch {
 			case strings.HasPrefix(arnres.Resource, "cluster"), // arn:aws:eks:*:*:cluster
