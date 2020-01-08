@@ -85,6 +85,11 @@ func rtag(arns, rtype, tags string) (err error) {
 			default: // a CLB, use original API
 				err = taglbclassic(arnres, key, value)
 			}
+		case "secretsmanager":
+			if !strings.Contains(arnres.Resource, "secret:") {
+				return fmt.Errorf("I know how to tag a Secrets Manager secret, and %s seems not to be one", arns)
+			}
+			err = tagsecret(arnres, key, value)
 		case "eks":
 			switch {
 			case strings.HasPrefix(arnres.Resource, "cluster"), // arn:aws:eks:*:*:cluster
