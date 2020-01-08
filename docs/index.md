@@ -58,6 +58,10 @@ Currently, `awsometag` supports tagging resources for the following services:
     - ALBs
     - NLBs
 
+**Security** services:
+
+- AWS Secrets Manager: secrets
+
 **Container** services:
 
 - Amazon Elastic Container Registry: repositories

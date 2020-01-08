@@ -8,6 +8,7 @@ nav:
     - Overview: index.md
     - Fundamental: fundamental.md
     - Networking: networking.md
+    - Security: security.md
     - Containers: containers.md
     - About: about.md
 theme:
