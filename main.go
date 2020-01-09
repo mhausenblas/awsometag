@@ -90,6 +90,11 @@ func rtag(arns, rtype, tags string) (err error) {
 				return fmt.Errorf("I know how to tag a Secrets Manager secret, and %s seems not to be one", arns)
 			}
 			err = tagsecret(arnres, key, value)
+		case "rds":
+			if !strings.Contains(arnres.Resource, "db:") {
+				return fmt.Errorf("I know how to tag an RDS database, and %s seems not to be one", arns)
+			}
+			err = tagrds(arnres, key, value)
 		case "eks":
 			switch {
 			case strings.HasPrefix(arnres.Resource, "cluster"), // arn:aws:eks:*:*:cluster
