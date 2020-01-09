@@ -9,6 +9,7 @@ nav:
     - Fundamental: fundamental.md
     - Networking: networking.md
     - Security: security.md
+    - Data: data.md
     - Containers: containers.md
     - About: about.md
 theme:

@@ -61,6 +61,11 @@ Currently, `awsometag` supports tagging resources for the following services:
 **Security** services:
 
 - AWS Secrets Manager: secrets
+  
+
+**Data** services:
+
+- Amazon Relational Database Service: databases
 
 **Container** services:
 
