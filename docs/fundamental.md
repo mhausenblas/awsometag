@@ -149,3 +149,31 @@ $ aws ec2 describe-tags \
     The EC2 service defines a range of 
     [resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies),
     from instances to volumes to VPCs. All of them are supported and you'll need to compose the ARNs yourself.
+
+
+## SQS
+
+To tag the SQS queue `arn:aws:sqs:us-west-2:123456789102:myqueue` with `some=thing`, use:
+
+```sh
+# tag:
+$ awsometag arn:aws:sqs:us-west-2:123456789102:myqueue some=thing
+2020/01/10 05:11:59 Tagging SQS queue 'myqueue' in region 'us-west-2' with some:thing
+
+# verify the tagging:
+$ aws sqs list-queue-tags \
+      --queue-url https://sqs.us-west-2.amazonaws.com/123456789102/myqueue
+{
+    "Tags": {
+        "some": "thing"
+    }
+}
+```
+
+!!! note "Queue identities"
+    While SQS supports ARNs as first class citizens, its identity is based on
+    the queue's URL. Luckily it's rather trivial to convert ARNs and URLs, in this
+    case: a 1:1 mapping with `region`, `account ID`, and `queue name` being the
+    respective variables. For example, the SQS ARN `arn:aws:sqs:us-west-2:123456789102:myqueue`
+    maps to the SQS URL `https://sqs.us-west-2.amazonaws.com/123456789102/myqueue`
+    and vice versa.

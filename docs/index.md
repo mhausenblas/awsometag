@@ -50,6 +50,7 @@ Currently, `awsometag` supports tagging resources for the following services:
 - AWS Lambda: functions
 - Amazon DynamoDB: tables
 - Amazon Elastic Compute Cloud: all resources
+- Amazon Simple Queue Service: queues
   
 **Networking** services:
 
