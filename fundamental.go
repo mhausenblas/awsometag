@@ -2,6 +2,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strings"
 
@@ -14,6 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/service/sqs"
 )
 
 // tagiamrole tags an IAM role
@@ -208,6 +210,25 @@ func tagec2(arnres arn.ARN, key, value string) error {
 				Value: aws.String(value),
 			},
 		},
+	})
+	return err
+}
+
+// tagsqs tags SQS queues as defined in:
+// https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonsqs.html#amazonsqs-resources-for-iam-policies
+func tagsqs(arnres arn.ARN, key, value string) error {
+	// arn:aws:sqs:us-west-2:123456789102:myqueue
+	region := arnres.Region
+	accountID := arnres.AccountID
+	queuename := arnres.Resource
+	log.Printf("Tagging SQS queue '%s' in region '%s' with %s:%s",
+		queuename, region, key, value)
+	// https://sqs.us-west-2.amazonaws.com/123456789102/myqueue
+	queueURL := fmt.Sprintf("https://sqs.%s.amazonaws.com/%s/%s", region, accountID, queuename)
+	svc := sqs.New(session.Must(session.NewSession()), aws.NewConfig().WithRegion(region))
+	_, err := svc.TagQueue(&sqs.TagQueueInput{
+		QueueUrl: aws.String(queueURL),
+		Tags:     map[string]*string{key: aws.String(value)},
 	})
 	return err
 }

@@ -77,6 +77,8 @@ func rtag(arns, rtype, tags string) (err error) {
 			err = tagdynamodb(arnres, key, value)
 		case "ec2":
 			err = tagec2(arnres, key, value)
+		case "sqs":
+			err = tagsqs(arnres, key, value)
 		case "elasticloadbalancing":
 			switch {
 			case strings.Contains(arnres.Resource, "loadbalancer/net"),
