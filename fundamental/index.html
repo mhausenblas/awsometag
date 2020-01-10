@@ -295,6 +295,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#sqs" title="SQS" class="md-nav__link">
+    SQS
+  </a>
+  
+</li>
+      
       
       
       
@@ -415,6 +422,13 @@
         <li class="md-nav__item">
   <a href="#ec2" title="EC2" class="md-nav__link">
     EC2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqs" title="SQS" class="md-nav__link">
+    SQS
   </a>
   
 </li>
@@ -670,6 +684,43 @@ $ aws ec2 describe-tags <span class="se">\</span>
 <p>The EC2 service defines a range of 
 <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies">resources</a>,
 from instances to volumes to VPCs. All of them are supported and you'll need to compose the ARNs yourself.</p>
+</div>
+<h2 id="sqs">SQS<a class="headerlink" href="#sqs" title="Permanent link">&para;</a></h2>
+<p>To tag the SQS queue <code>arn:aws:sqs:us-west-2:123456789102:myqueue</code> with <code>some=thing</code>, use:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1"># tag:</span>
+$ awsometag arn:aws:sqs:us-west-2:123456789102:myqueue <span class="nv">some</span><span class="o">=</span>thing
+<span class="m">2020</span>/01/10 <span class="m">05</span>:11:59 Tagging SQS queue <span class="s1">&#39;myqueue&#39;</span> in region <span class="s1">&#39;us-west-2&#39;</span> with some:thing
+
+<span class="c1"># verify the tagging:</span>
+$ aws sqs list-queue-tags <span class="se">\</span>
+      --queue-url https://sqs.us-west-2.amazonaws.com/123456789102/myqueue
+<span class="o">{</span>
+    <span class="s2">&quot;Tags&quot;</span>: <span class="o">{</span>
+        <span class="s2">&quot;some&quot;</span>: <span class="s2">&quot;thing&quot;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition note">
+<p class="admonition-title">Queue identities</p>
+<p>While SQS supports ARNs as first class citizens, its identity is based on
+the queue's URL. Luckily it's rather trivial to convert ARNs and URLs, in this
+case: a 1:1 mapping with <code>region</code>, <code>account ID</code>, and <code>queue name</code> being the
+respective variables. For example, the SQS ARN <code>arn:aws:sqs:us-west-2:123456789102:myqueue</code>
+maps to the SQS URL <code>https://sqs.us-west-2.amazonaws.com/123456789102/myqueue</code>
+and vice versa.</p>
 </div>
                 
                   
